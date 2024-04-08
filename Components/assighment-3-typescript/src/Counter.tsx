@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 const Counter= () => {
   const [count, setCount] = useState(0);
@@ -24,7 +24,9 @@ const Counter= () => {
 // when a button is clicked. Use useState to manage the temperature input and output.
 function Temperature() {
   const [temp, setTemp] = useState(0);
-
+const changeTemprature=(e:ChangeEvent<HTMLInputElement>)=>{
+setTemp(parseInt(e.target.value))
+}
   const celsiusToFahrenheit = () => {
     const Fahrenheit = temp * 9/5 + 32;
     setTemp(Fahrenheit);
@@ -35,9 +37,20 @@ function Temperature() {
     setTemp(celsius);
   }
 
+  // const celsiusToFahrenheit = (e:<HTMLInputElement>) => {
+  //   const Fahrenheit = temp * 9/5 + 32;
+  //   setTemp(Fahrenheit);
+  // }
+
+  // const fahrenheitToCelsius = () => {
+  //   const celsius = (temp - 32) * 5/9;
+  //   setTemp(celsius);
+  // }
+
   return (
     <div>
-      <h1>{temp}</h1>
+      
+       <input type = 'number' value={temp} onChange={changeTemprature}/> 
       <button onClick={celsiusToFahrenheit}>Convert to Fahrenheit</button>
       <button onClick={fahrenheitToCelsius}>Convert to Celsius</button>
     </div>

@@ -1,5 +1,5 @@
 function sum(arr){
-    return result = arr.filter(element=>element>20)
+    return arr.filter(element=>element>20)
    .reduce((accum,currntvalue)=>
       accum+currntvalue,0)
       
