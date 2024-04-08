@@ -7,6 +7,7 @@ import{v4 as uuid4} from 'uuid'
 import dayjs from 'dayjs'
 
 
+
 // Comment List data
 const defaultList = [
   {
@@ -160,7 +161,7 @@ const makepost=()=>{
         <div className="reply-list">
           {/* comment item */}
           {comment.map(item=>( <div className="reply-item" key ={item.rpid}>
-         
+       
             {/* profile */}
             <div className="root-reply-avatar">
               <div className="bili-avatar">
@@ -199,3 +200,5 @@ const makepost=()=>{
 }
 
 export default App
+
+
