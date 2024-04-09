@@ -139,13 +139,13 @@ const App = () => {
         <div className="box-normal">
           <div className="reply-box-avatar">
             <div className="bili-avatar">
-              {comment.map((item) => (
+            
                 <img
                   className="bili-avatar-img"
-                  src={item.user.avatar}
+                  src={avatar}
                   alt=" "
                 />
-              ))}
+           
             </div>
           </div>
           <div className="reply-box-wrap">

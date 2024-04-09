@@ -1,4 +1,4 @@
-import avatar from "./images/bozai.png";
+
 
 type Comment = {
   rpid: string | number;
@@ -19,14 +19,14 @@ type Props = {
 };
 
 function ReplyItem(prop: Props) {
-  const { item, onDelete, user, avatar } = prop;
+  const { item, onDelete, user } = prop;
 
   const handleDelete = () => {
     onDelete(item.rpid);
   };
   return (
     <div className="reply-item" key={item.rpid}>
-      {/* profile */}
+   
       <div className="root-reply-avatar">
         <div className="bili-avatar">
           <img
