@@ -154,6 +154,7 @@ const App = () => {
               className="reply-box-textarea"
               placeholder="tell something..."
             />
+            
 
             <div className="reply-box-send">
               <div className="send-text" onClick={makepost}>

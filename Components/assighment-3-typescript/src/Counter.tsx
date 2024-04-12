@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState,MouseEvent } from 'react';
 
 const Counter= () => {
   const [count, setCount] = useState(0);
@@ -25,7 +25,7 @@ const Counter= () => {
 function Temperature() {
   const [temp, setTemp] = useState(0);
 const changeTemprature=(e:ChangeEvent<HTMLInputElement>)=>{
-setTemp(parseInt(e.target.value))
+setTemp(parseInt(e.currentTarget.value))
 }
   const celsiusToFahrenheit = () => {
     const Fahrenheit = temp * 9/5 + 32;
@@ -37,15 +37,7 @@ setTemp(parseInt(e.target.value))
     setTemp(celsius);
   }
 
-  // const celsiusToFahrenheit = (e:<HTMLInputElement>) => {
-  //   const Fahrenheit = temp * 9/5 + 32;
-  //   setTemp(Fahrenheit);
-  // }
 
-  // const fahrenheitToCelsius = () => {
-  //   const celsius = (temp - 32) * 5/9;
-  //   setTemp(celsius);
-  // }
 
   return (
     <div>
