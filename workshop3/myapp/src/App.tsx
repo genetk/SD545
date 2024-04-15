@@ -9,7 +9,7 @@ import Todo from './types';
 
 function App() {
   const [todos,setTodos]=useState<Todo[]>([])
-  const[checked,setChecked]=useState(false)
+  
 
 
   useEffect(()=>{
