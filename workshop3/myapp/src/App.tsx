@@ -38,16 +38,12 @@ function App() {
    const deleted =todos.filter(todo=>todo.id!==id)
    setTodos(deleted)
   }
-  const checkAllTodo=(e:ChangeEvent<HTMLInputElement>)=>{
-   const checked = e.target.checked
+  const upDateAll=(checked:boolean)=>{
     const updated=(todos.map(todo=>({...todo,done:checked
     })))
     setTodos(updated)
-    setChecked(checked)
-   
-   
-  
   }
+ 
 
   const deleteCheckedTodos = () => {
     setTodos(todos.filter(todo => !todo.done));
@@ -64,7 +60,7 @@ function App() {
      <Header onAddNewToDo={addNewToDo}/>
     
      <List todos={todos}  onUpdateTodo={updateTodo} onDeletById={deleteToDoById}/>
-     <Footer todos={todos} onUpdateNewTodo={checkAllTodo} onDeleteCheckedTodos={deleteCheckedTodos}/>
+     <Footer todos={todos} onUpdateNewTodo={upDateAll} onDeleteCheckedTodos={deleteCheckedTodos}/>
    
      
     </div>

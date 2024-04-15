@@ -16,17 +16,19 @@ function Header(prop:Props) {
  }
  const addToDo=(e:KeyboardEvent<HTMLInputElement>)=>{
     const value=e.currentTarget.value
-    if(value.trim()){
+    
       if(e.key==='Enter'){
+        if(value.trim()){
         onAddNewToDo({
           id:nanoid(),
           name:value,
           done:false
         })
 
-      }
-    }else
-    alert('task cant be empty')
+      }else
+      alert('task cant be empty')
+    }
+    
      
       }
  
