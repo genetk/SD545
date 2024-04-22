@@ -22,12 +22,13 @@ const addPlaylist=(songId:string)=>{
 const deletePlaylist=(songId:string)=>{
     return http.post(`/api/playlist/remove`,{songId})
 }
-const searchSongByTitle = () => {
-    return http.get('/api/music?serach=title')
+const searchSongByTitle = (title:string) => {
+    return http.get(`/api/music`,{
+        params:{serach:title}
   
-     
+    });}
 
-  };
+ 
 export default {getSongs,login,search,
   getPlaylist,addPlaylist,deletePlaylist,searchSongByTitle
 }
