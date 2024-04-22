@@ -1,4 +1,4 @@
-import { ChangeEvent,useState,KeyboardEvent } from "react";
+import { ChangeEvent,useState,KeyboardEvent, useEffect, FormEvent } from "react";
 import logo from "../../images/logo.jpeg";
 import Song from "../../types/songs.types";
 import songsService from "../../apis/services/songs.service";
@@ -7,50 +7,30 @@ import { Link } from "react-router-dom";
 
 
 
+
 function Header() {
-  
-
-// const[title,setTitle]=useState('')
-        
-// const handleSearch = async () => {
-//   try {
-//       const response = await songsService.search(title);
-//       if(response.status === 200){
-//          setTitle(response.data)
-//       }
-//   } catch (error) {
-//       console.error('error', error);
-//   }
-// }
-// // const handleKeyPress = (e:KeyboardEvent<HTMLInputElement>) => {
-// //   const value= e.currentTarget.value;
-
-// //     if (e.key === 'Enter') {
-// //       if(value.trim())
-// //         handleSearch();
-// //       e.currentTarget.value= '';
-// //       e.currentTarget.focus();
-// //     }
-// //     else{
-// //       return [];
-// //     }
-// // };[4:38 PM] Helen K Meles
-// const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
  
-//   const value = e.currentTarget.value;
-//   setTitle(value);
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [keyboard, setKeyboard] = useState("");
 
-//   if (e.key === 'Enter') {
-//     if (value.trim())
+  const handleSearch = async (e:ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    setKeyboard(title);
+    try {
+      const response = await songsService.searchSongByTitle();
+      console.log(response)
+      if (response.status === 200 && response.data) {
+        setSongs(response.data); 
+      
+      } else {
+        setSongs([]); 
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-//       handleSearch();
-//     e.currentTarget.value = '';
-//     e.currentTarget.focus();
-//   }
-//   else {
-//     return [];
-//   }
-// };
+ 
 
   return (
     <header className="py-3 mb-3 border-bottom">
@@ -58,20 +38,30 @@ function Header() {
         <div className="d-flex align-items-center">
           <img src={logo} alt="music logo" className="bi me-2" width="40" height="32" />
           
-          <form className="me-3" role="search">
+          <form className="me-3" role="search" >
+         
             <input
               type="search"
               className="form-control"
               placeholder="Search..."
-            
+              style={{width:'550%'}}
+              value={keyboard}
+             onChange={handleSearch}
+             />
              
-             style={{width:'550%'}}
-            />
+        
+            
+            
+           
+           
+                   
           </form>
         </div>
 
         <Link to="/login"  type="button" className="btn btn-outline-primary me-2">Logout</Link>
       </div>
+      
+       
     </header>
   );
 }

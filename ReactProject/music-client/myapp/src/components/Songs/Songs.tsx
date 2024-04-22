@@ -1,32 +1,31 @@
-import React, { useEffect, useState,MouseEvent } from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import plusicon from "../../images/plus-circle.png";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Song from "../../types/songs.types";
 import songsService from "../../apis/services/songs.service";
+import Header from "../Header/Header";
 function Songs() {
- 
   const [songs, setSongs] = useState<Song[]>([]);
 
-  const addSongsToPlaylist = async (e:MouseEvent<HTMLImageElement>) => {
-    const value=e.currentTarget.alt
-      try{
-    const response = await songsService.addPlaylist(value);
-    PubSub.publish("songs", response.data.id);
-  }catch(error){
-    console.error(error)
-  }
-  }
+  const addSongsToPlaylist = async (e: MouseEvent<HTMLImageElement>) => {
+    const value = e.currentTarget.alt;
+    try {
+      const response = await songsService.addPlaylist(value);
+      PubSub.publish("songs", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const fetchedSongs = async () => {
-      try{
-      const response = await songsService.getSongs();
-      setSongs(response.data);
-  
-    }catch(error){
-      console.log(error)
-    }
-  }
+      try {
+        const response = await songsService.getSongs();
+        setSongs(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchedSongs();
   }, []);
   return (
@@ -43,13 +42,21 @@ function Songs() {
             </tr>
           </thead>
           <tbody>
+           
             {songs.map((song, index) => (
               <tr key={song.id}>
                 <th scope="row">{index + 1}</th>
+               
                 <td>{song.title}</td>
                 <td>{song.releaseDate}</td>
-                <td ><img onClick={ addSongsToPlaylist} src={plusicon} alt={song.id} style={{width:"25px",height:"25px"}}/>
-               </td>
+                <td>
+                  <img
+                    onClick={addSongsToPlaylist}
+                    src={plusicon}
+                    alt={song.id}
+                    style={{ width: "25px", height: "25px" }}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>

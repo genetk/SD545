@@ -18,7 +18,13 @@ export interface Playlist {
 function Playlist() {
 
   const [playlist, setPlaylist] = useState<Playlist[]>([]);
-  const[currentsong,setCurrentsong]=useState(false)
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+ 
+
+  // Function to handle play/pause
+  
+ 
+  
 
   useEffect(() => {
     const getPlaylistData = async () => {
@@ -40,7 +46,7 @@ function Playlist() {
   }, []);
 
   const removeSongFromPlaylist = async (songid:string) => {
-    // const value=e.currentTarget.alt
+   
     try {
       const response = await songsService.deletePlaylist(songid);
       console.log("datafromapi",response.data)
@@ -52,14 +58,13 @@ function Playlist() {
     }
 
   }
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
 
-//  const playSong=(songid:string)=>{
-//   cpnst song=playlist.(song=>song.)
-//   setPlaylist(songid)
-//  if(songToAdd){
-//   setPlaylist([...playlist,songToAdd])
-//  }
-//  }
+
+
+
   return (
  
     <div className="container">
@@ -81,12 +86,16 @@ function Playlist() {
       {playlist.map((song,index)=>(<tr key={song.id}>
       <th scope="row" >{index+1}</th>
       <td>{song.title}</td>
-      <td key={song.songId} ><img onClick={()=>removeSongFromPlaylist(song.songId)} src={dashicon} alt={song.songId} style={{width:"25px",height:"25px",marginRight: '10px'}}/>
+      <td key={song.songId} ><img onClick={()=>removeSongFromPlaylist(song.songId)} src={dashicon} alt="dashiconcircle" style={{width:"25px",height:"25px",marginRight: '10px'}}/>
                   
              
-                  <img src={playicon} alt={song.id}style={{width:"25px",height:"25px"}} /></td>
+               <img src={playicon} alt={song.id}style={{width:"25px",height:"25px"}} onClick={togglePlay} />  {isPlaying ? 'Pause' : 'Play'}
+ 
+ 
+ 
+</td>
     
-                  </tr> ))}
+                 </tr> ))}
    
    
   </tbody>
