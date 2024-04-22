@@ -39,15 +39,14 @@ function Playlist() {
 
   }, []);
 
-  const removeSongFromPlaylist = async () => {
-    
+  const removeSongFromPlaylist = async (songid:string) => {
+    // const value=e.currentTarget.alt
     try {
-      const response = await songsService.deletePlaylist();
-      console.log("datafromapi",response.data.songId)
-      if(response.status===200){
-          const removedsong=playlist.filter(song=>song.songId!==response.data.songId)
-         setPlaylist(removedsong)
-      }
+      const response = await songsService.deletePlaylist(songid);
+      console.log("datafromapi",response.data)
+    
+         setPlaylist(response.data)
+      
     }catch(error){
       console.error(error)
     }
@@ -82,7 +81,7 @@ function Playlist() {
       {playlist.map((song,index)=>(<tr key={song.id}>
       <th scope="row" >{index+1}</th>
       <td>{song.title}</td>
-      <td key={song.songId} ><img onClick={removeSongFromPlaylist} src={dashicon} alt={song.songId} style={{width:"25px",height:"25px",marginRight: '10px'}}/>
+      <td key={song.songId} ><img onClick={()=>removeSongFromPlaylist(song.songId)} src={dashicon} alt={song.songId} style={{width:"25px",height:"25px",marginRight: '10px'}}/>
                   
              
                   <img src={playicon} alt={song.id}style={{width:"25px",height:"25px"}} /></td>

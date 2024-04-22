@@ -19,8 +19,8 @@ const addPlaylist=(songId:string)=>{
     return http.post('/api/playlist/add',{songId})
 
 }
-const deletePlaylist=()=>{
-    return http.delete(`/api/playlist/remove?songid`)
+const deletePlaylist=(songId:string)=>{
+    return http.post(`/api/playlist/remove`,{songId})
 }
 const searchSongByTitle = (title: string) => {
 
