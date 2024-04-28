@@ -32,6 +32,7 @@ export default function Login() {
 
       if (response.status === 200) {
         setLoggedIn(true);
+        localStorage.getItem('userId')
         localStorage.setItem("token", response.data.accessToken);
 
         navigate("/welcome");

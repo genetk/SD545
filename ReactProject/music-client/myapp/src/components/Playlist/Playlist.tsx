@@ -1,8 +1,8 @@
 
 
-import React, { useEffect, useState, MouseEvent } from "react";
-import { Song } from '../../types/songs.types'
-import PubSub, { unsubscribe } from "pubsub-js";
+import { useEffect, useState, MouseEvent } from "react";
+
+import PubSub from "pubsub-js";
 import songsService from "../../apis/services/songs.service";
 
 import playIcon from '../../images/play-icon.png'
@@ -26,7 +26,7 @@ export interface Playlist {
 function Playlist() {
 
   const [playlist, setPlaylist] = useState<Playlist[]>([]);
-  const [currentSong, setCurrentSong] = useState<Playlist | null>(null);
+  const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
   const userId = localStorage.getItem('userId')
 
 
@@ -67,11 +67,19 @@ function Playlist() {
     }
 
   }
-  const togglePlay = (currentSong: Playlist) => {
-    setCurrentSong(currentSong);
+  const playPreviousSong = () => {
+    setCurrentSongIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : playlist.length - 1));
+  };
+  
+  const playNextSong = () => {
+    setCurrentSongIndex(prevIndex => (prevIndex < playlist.length - 1 ? prevIndex + 1 : 0));
+  };
+  
+  const togglePlay = (currentSongIndex: Playlist, index: number) => {
+    setCurrentSongIndex(index);
   };
 
-
+  
 
 
   return (
@@ -98,7 +106,7 @@ function Playlist() {
               <td key={song.songId} ><img onClick={() => removeSongFromPlaylist(song.songId)} src={dash_circle} alt="dashiconcircle" style={{ width: "25px", height: "25px", marginRight: '10px' }} />
 
 
-                <img src={playIcon} alt={song.id} style={{ width: "25px", height: "25px" }} onClick={() => togglePlay(song)} />  Play
+                <img src={playIcon} alt={song.id} style={{ width: "25px", height: "25px" }} onClick={() => togglePlay(song, index)} />  Play
 
               </td>
 
@@ -109,17 +117,19 @@ function Playlist() {
 
         </table>
       </div>
-
-
-      {currentSong && (
+      {currentSongIndex !== null && playlist.length > 0 && (
         <AudioPlayer
           autoPlay
-          src={`http://localhost:8000/${currentSong.urlPath}`}
+          src={`http://localhost:9000/${playlist[currentSongIndex].urlPath}`}
+          header={playlist[currentSongIndex].title}
           onPlay={e => console.log("onPlay")}
-          
-
+          showSkipControls={true}
+          onClickPrevious={playPreviousSong}
+          onClickNext={playNextSong}
         />
       )}
+
+    
 
 
 
