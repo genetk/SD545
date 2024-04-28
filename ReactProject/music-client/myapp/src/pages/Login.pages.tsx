@@ -1,61 +1,76 @@
-import React from 'react'
+import { ChangeEvent, useState, FormEvent } from "react";
+import logo from "../images/logo.jpeg";
 
-import logo from "../../images/logo.jpeg";
-import { useState, ChangeEvent, FormEvent } from "react";
-import songsService from '../apis/services/songs.service';
+import songsService from "../apis/services/songs.service";
 import { useNavigate } from "react-router-dom";
+import "./login.css";
 
-
-function Login() {
-  const nav=useNavigate()
+export default function Login() {
   const [username, setUsername] = useState("");
-  const [password, SetPassword] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleUser = (e: ChangeEvent<HTMLInputElement>) => {
+  const navigate = useNavigate();
+
+  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
+
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    SetPassword(e.target.value);
+    setPassword(e.target.value);
   };
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try{
-    const response = await songsService.login({
-      username,
-      password
-  });
-  console.log(response.data)
-    if (response.status===200) {
-      localStorage.setItem('accessToken',response.data.accesstoken)
-      nav('/Welcome')
+
+    try {
+      const response = await songsService.login({
+        username,
+        password,
+      });
+
+      if (response.status === 200) {
+        setLoggedIn(true);
+        localStorage.setItem("token", response.data.accessToken);
+
+        navigate("/welcome");
+      } else {
+        setErrorMsg("Incorrect username or password");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }catch(error){
-    setError('incorrect username and password')
-    nav('/login')
-    }
-    
   };
 
   return (
-    <div className="container" style={{ textAlign: "center", margin: "150px" }}>
+    <div style={{ textAlign: "center", margin: "120px" }}>
       <form onSubmit={handleSubmit}>
         <img
           className="mb-4"
           src={logo}
-          alt="Maharshi Logo"
-          width="100"
-          height="100"
+          alt="logo"
+          style={{ width: "40px", height: "40px" }}
         />
-        <h3 className="h3 mb-3 fw-normal">Please sign in</h3>
+        <h2 className="h3 mb-3 fw-normal">Please sign in</h2>
 
         <div>
-          <input type="text" placeholder="username" onChange={handleUser} />
+          <input
+            type="username"
+            id="floatingInput"
+            placeholder="username"
+            value={username}
+            onChange={handleUsername}
+          />
         </div>
+
         <div>
           <input
             type="password"
+            id="floatingPassword"
             placeholder="Password"
+            value={password}
             onChange={handlePassword}
           />
         </div>
@@ -63,13 +78,8 @@ function Login() {
         <button className="btn btn-primary mt-3" type="submit">
           Sign in
         </button>
-        {error&&<p style={{color:'red'}}>{error}</p>}
+        {errorMsg && <p style={{ color: "red" }}> {errorMsg}</p>}
       </form>
     </div>
   );
 }
-
-
-
-
-export default Login

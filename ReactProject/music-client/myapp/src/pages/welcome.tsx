@@ -1,26 +1,36 @@
-import React, { useState } from 'react'
+import Header from "../components/Headr/header";
+import Songs from "../components/Songs/Songs";
+import Playlist from "../components/Playlist/Playlist";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import'./welcome.css'
 
-
-
-import Songs from '../components/Songs/Songs'
-import Playlist from '../components/Playlist/Playlist'
-
-
-import Song from '../types/songs.types'
+export type Song = {
+  id: string;
+  urlPath: string;
+  title: string;
+  releaseDate: string;
+};
 
 function Welcome() {
-const[songs,setsongs]=useState<Song[]>([])
+  const [search, setSearch] = useState('');
+  return (
+    <>
+      {localStorage.getItem("token") ? (
+        <div>
+          <Header setSearch={setSearch} />
 
+          <Songs SearchProps={search}  />
 
-
-return (
-    <div>
-    
-      <Songs/>
-      <Playlist/>
-     
-    </div>
-  )
+          <Playlist />
+          </div>
+      ) : (
+      
+        <Navigate to="/login" />
+        
+      )}
+    </>
+  );
 }
 
-export default Welcome
+export default Welcome;

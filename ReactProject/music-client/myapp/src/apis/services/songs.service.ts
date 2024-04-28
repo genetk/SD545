@@ -1,35 +1,36 @@
+
 import http from "../axios"
-const getSongs=()=>{
+
+const getSongs = () => {
     return http.get('/api/music')
 
 }
-const login=(data:{username:string,password:string})=>{
-    return http.post('/api/auth/login',data)
+const login = (data: { username: string, password: string }) => {
+    return http.post('/api/auth/login', data)
 }
 
-const search=(title:string)=>{
-    return http.get('/api/music',{
-        params:{search:title}
-    })
-}
-const getPlaylist=()=>{
+
+const getPlaylist = () => {
     return http.get('/api/playlist')
 }
-const addPlaylist=(songId:string)=>{
-    return http.post('/api/playlist/add',{songId})
+const addPlaylist = (songId: string) => {
+    return http.post('/api/playlist/add', { songId })
 
 }
-const deletePlaylist=(songId:string)=>{
+const deletePlaylist = (songId: string) => {
     return http.post(`/api/playlist/remove`,{songId})
 }
-const searchSongByTitle = (title:string) => {
-    return http.get(`/api/music`,{
-        params:{serach:title}
-  
-    });}
+const searchSongByTitle = (title: string) => {
 
- 
-export default {getSongs,login,search,
-  getPlaylist,addPlaylist,deletePlaylist,searchSongByTitle
+    return http.get(`/api/music?search=${title}`);
+
 }
-
+export default {
+    getSongs,
+    login,
+  
+    getPlaylist,
+    addPlaylist,
+    deletePlaylist,
+    searchSongByTitle
+}
